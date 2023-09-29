@@ -71,58 +71,59 @@ def get_successors(grid, robot, boxes):
     return successors
 
 
-def bfs(initial_state):
+def dfs(initial_state):
     visited = set()
-    queue = deque([initial_state])
+    stack = [(initial_state, [])]
 
-    while queue:
-        current_state = queue.popleft()
+    while stack:
+        current_state, path = stack.pop()
         grid, _, _ = current_state
-        print(current_state)
+
         if is_goal(grid, current_state[2]):
-            return grid
+            return path
 
         visited.add(tuple(map(tuple, grid)))
 
         successors = get_successors(*current_state)
         for successor in successors:
             if tuple(map(tuple, successor[0])) not in visited:
-                queue.append(successor)
-
+                stack.append((successor, path + [successor]))
+            print(current_state)
     return None
 
 
-def dfs(current_state, visited):
-    grid, _, _ = current_state
+def print_solution(solution_path, initial_grid):
+    grid = [row[:] for row in initial_grid]
 
-    if is_goal(grid, current_state[2]):
-        return grid
+    for state in solution_path:
+        for y in range(len(grid)):
+            for x in range(len(grid[0])):
+                if grid[y][x] == ROBOT:
+                    robot_x, robot_y = x, y
+                    grid[y][x] = EMPTY
 
-    visited.add(tuple(map(tuple, grid)))
+        for y in range(len(grid)):
+            for x in range(len(grid[0])):
+                if grid[y][x] == BOX:
+                    box_x, box_y = x, y
 
-    successors = get_successors(*current_state)
-    for successor in successors:
-        if tuple(map(tuple, successor[0])) not in visited:
-            result = dfs(successor, visited)
-            if result:
-                return result
+        grid[robot_y][robot_x] = ROBOT
+        grid[box_y][box_x] = BOX
 
-    return None
-
-
-def print_solution(solution_grid):
-    for row in solution_grid:
-        print("".join(row))
+        for row in grid:
+            print("".join(row))
+        print("\n")
 
 
-def execute_bfs(file_name):
+def execute_dfs(file_name):  # Replace 'pukoban.txt' with the path to your puzzle file
     puzzle_file = file_name
-    initial_state = parse_puzzle(puzzle_file)
+    initial_grid, initial_robot, initial_boxes = parse_puzzle(puzzle_file)
+    initial_state = (initial_grid, initial_robot, initial_boxes)
 
-    solution_grid = bfs(initial_state)
+    solution_path = dfs(initial_state)
 
-    if solution_grid:
+    if solution_path:
         print("Solution found:")
-        print_solution(solution_grid)
+        print_solution(solution_path, initial_grid)
     else:
         print("No solution found.")

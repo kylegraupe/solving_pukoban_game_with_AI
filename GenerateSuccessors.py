@@ -1,5 +1,4 @@
 import pandas as pd
-from collections import deque
 
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
@@ -20,6 +19,12 @@ actions = [1, 2, 3]
 
 
 def parse_puzzle(file_path):
+    """
+    This function takes in a text file as input and returns the Pukoban game puzzle
+    :param file_path: Path to text file containing Pukoban game Grid
+    :return: Game grid, robot locations, box locations, storage locations
+    """
+
     with open(file_path, 'r') as file:
         lines = file.read().splitlines()
 
@@ -41,6 +46,12 @@ def parse_puzzle(file_path):
 
 
 def parse_grid(grid):
+    """
+    This function takes in a grid as an input to update robot, box, and storage locations.
+    Used in the search algorithms.
+    :param grid: Pukoban Game Grid
+    :return: Pukoban Game Grid, robot locations, box locations, storage locations
+    """
 
     robot = []
     boxes = []
@@ -59,12 +70,26 @@ def parse_grid(grid):
 
 
 def is_goal(boxes, storages):
+    """
+    Tests to see if all boxes are in storage locations.
+    :param boxes: List of tuples containing box locations
+    :param storages: List of tuples containing storage locations
+    :return: Boolean
+    """
+
     if set(storages) == set(boxes):
         return True
     return False
 
 
 def adjacent_boxes(grid, robot_loc):
+    """
+    This function returns the location of adjacent boxes to the robot input.
+    :param grid: Pukoban Game Grid
+    :param robot_loc: Location of a robot
+    :return: Adjacent box locations
+    """
+
     adjacent_box_locations = []
     x, y = robot_loc
 
@@ -79,7 +104,14 @@ def adjacent_boxes(grid, robot_loc):
 
 
 def is_valid_push(grid, robot_loc, box_loc, direction):
-
+    """
+    This function checks to see if a push action is valid based on criteria.
+    :param grid: Pukoban Game Grid
+    :param robot_loc: Robot location
+    :param box_loc: Box location
+    :param direction: Direction of push
+    :return: Boolean
+    """
     if grid[robot_loc[1] + direction[1]][robot_loc[0] + direction[0]] == OBSTACLE:
         print('Invalid Push: Robot -> Obstacle')
         return False
@@ -101,6 +133,14 @@ def is_valid_push(grid, robot_loc, box_loc, direction):
 
 
 def is_valid_pull(grid, robot_loc, box_loc, direction):
+    """
+    This function checks to see if a pull action is valid based on game criteria.
+    :param grid: Pukoban Game Grid
+    :param robot_loc: Robot location
+    :param box_loc: Box location
+    :param direction: Direction of pull
+    :return: Boolean
+    """
     if grid[robot_loc[1] + direction[1]][robot_loc[0] + direction[0]] == OBSTACLE:
         print('Invalid Pull: Robot -> Obstacle')
         return False
@@ -114,6 +154,14 @@ def is_valid_pull(grid, robot_loc, box_loc, direction):
 
 
 def is_valid_move(grid, robot_loc, direction):
+    """
+    This function checks to see if a vacant move is valid. A vacant move is a robot moving to
+    an empty space.
+    :param grid: Pukoban Game Grid
+    :param robot_loc: Robot location
+    :param direction: Direction of move
+    :return: Boolean
+    """
     if grid[robot_loc[1] + direction[1]][robot_loc[0] + direction[0]] == OBSTACLE or \
             grid[robot_loc[1] + direction[1]][robot_loc[0] + direction[0]] == BOX:
         print('Invalid Move: Robot -> Obstacle')
@@ -124,6 +172,14 @@ def is_valid_move(grid, robot_loc, direction):
 
 
 def push(grid, robot_pos, box_pos, direction):
+    """
+    This function updates the game grid based on a valid push.
+    :param grid: Pukoban Game Grid
+    :param robot_pos: Robot location
+    :param box_pos: Box location
+    :param direction: Direction of push
+    :return: Updated Pukoban Game Grid after valid push
+    """
     if is_valid_push(grid, robot_pos, box_pos, direction):
         x, y = robot_pos
         a, b = box_pos
@@ -154,6 +210,14 @@ def push(grid, robot_pos, box_pos, direction):
 
 
 def pull(grid, robot_loc, box_loc, direction):
+    """
+    This function updates the Pukoban Game Grid based on a valid pull action.
+    :param grid: Pukoban Game Grid
+    :param robot_loc: Robot location
+    :param box_loc: Box location
+    :param direction: Direction of pull
+    :return: Updated Pukoban Game Grid after valid pull
+    """
     if is_valid_pull(grid, robot_loc, box_loc, direction):
 
         x, y = robot_loc
@@ -183,6 +247,13 @@ def pull(grid, robot_loc, box_loc, direction):
 
 
 def move(grid, robot_loc, direction):
+    """
+    This function updates the Pukoban Game Grid after a valid vacant move.
+    :param grid: Pukoban Game Grid
+    :param robot_loc: Robot location
+    :param direction: Direction of move
+    :return: Updated Pukoban Game Grid
+    """
     if is_valid_move(grid, robot_loc, direction):
         x, y = robot_loc
 
@@ -199,6 +270,15 @@ def move(grid, robot_loc, direction):
 
 
 def check_successor(grid, robot_loc, box_loc, direction, action):
+    """
+    This function generates successor state game grids based on the action and direction given.
+    :param grid: Pukoban Game Grid
+    :param robot_loc: Robot location
+    :param box_loc: Box location
+    :param direction: Direction of action
+    :param action: Action type (Push, Pull, Move)
+    :return: Updates game grid based on action type.
+    """
     if action == 1:
         if is_valid_move(grid, robot_loc, direction):
             return move(grid, robot_loc, direction)
@@ -214,16 +294,14 @@ def check_successor(grid, robot_loc, box_loc, direction, action):
 
 
 def generate_successors(grid, robot, boxes):
+    """
+    This function generates all successor states given an input state.
+    :param grid: Pukoban Game Grid initial state
+    :param robot: Robot location
+    :param boxes: Box location
+    :return: 2D list of successor states
+    """
     successors = []
-
-    # for i in range(len(robot)):
-    #     for j in directions:
-    #         print(move)
-    #         successor = check_successor(grid, robot[i], boxes, j)
-    #         if successor:
-    #             successors.append(successor)
-    #
-    # print(pd.DataFrame(successors))
 
     for i in range(len(robot)):
         for action in actions:
@@ -235,99 +313,4 @@ def generate_successors(grid, robot, boxes):
     return successors
 
 
-def bfs_2(start_df, test_storages):
-    visited = set()  # Use a set for faster membership checking
-    queue = deque([(start_df, [])])
 
-    while queue:
-        current_grid, path = queue.popleft()
-        current_grid, current_robot, current_boxes, current_storages = parse_grid(current_grid)
-
-        if is_goal(current_boxes, test_storages):
-            print(f'Path: {path}')
-            return path
-
-        # Convert the current_df to a tuple of tuples for hashing
-        current_state_tuple = tuple(map(tuple, current_grid))
-
-        visited.add(current_state_tuple)
-
-        for i in current_robot:
-            for j in range(len(adjacent_boxes(current_grid, i))):
-                for successor_df in generate_successors(current_grid, current_robot, current_boxes[j]):
-                    successor_state_tuple = tuple(map(tuple, successor_df))
-
-                    if successor_state_tuple not in visited:
-                        queue.append((successor_df, path + [successor_df]))
-
-
-    print('visited')
-    print([pd.DataFrame(i) for i in visited])
-
-
-def dfs(grid, robot, boxes, storages):
-    # Check if the current state is a goal state
-    if is_goal(boxes, storages):
-        return []
-
-    # Iterate over all possible moves
-    for i, robot_pos in enumerate(robot):
-        for direction in directions:
-            successor = check_successor(grid, robot_pos, boxes, direction, actions[0])
-
-            if successor:
-                # Make a move
-                new_grid, new_robot, new_boxes, _ = parse_grid(successor)
-
-                # Recursively explore the new state
-                path = dfs(new_grid, new_robot, new_boxes, storages)
-
-                if path is not None:
-                    return [successor] + path
-
-    # No solution found from this state
-    return None
-
-
-def bfs_executive():
-    puzzle_file = 'pukoban_medium.txt'
-    grid, robot, boxes, storages = parse_puzzle(puzzle_file)
-
-    # print(bfs_2(grid, storages))
-
-    # print(dfs(grid, robot, boxes, storages))
-
-    solution_path = bfs_2(grid, storages)
-    print(solution_path)
-    if solution_path:
-        print("Solution found:")
-        for step, state in enumerate(solution_path):
-            grid = state
-            print(f"Step {step + 1}:")
-            for row in grid:
-                print("".join(row))
-            print("\n")
-    else:
-        print("No solution found.")
-
-    # print(is_valid_pull(grid, robot[0], boxes[0], right))
-    # print(is_valid_push(grid, robot[0], boxes[0], left))
-    # print(is_valid_move(grid, robot[0], right))
-
-    # adj = adjacent_boxes(grid, robot[0])
-    # for i in adj:
-    #     successors = generate_successors(grid, robot, i)
-    #
-    # print([pd.DataFrame(i) for i in successors])
-    #
-    # grid_1, robot_1, boxes_1, storages_1 = parse_grid(successors[1].values.tolist())
-    # print(is_goal(successors[1].values.tolist(), boxes_1, storages))
-
-    # grid_2 = pull(grid, robot[0], boxes[0], right)
-    # print('\nasdf')
-    # print(pd.DataFrame(grid_2))
-
-    # grid_2, robot_2 = pull(grid_2, robot_2, boxes[0], right)
-    # print('\nasdf')
-    # print(pd.DataFrame(grid_2))
-    # print(robot_2)

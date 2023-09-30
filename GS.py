@@ -1,5 +1,5 @@
 import heapq
-
+import datetime
 
 import GenerateSuccessors
 import ManhattanHeuristic
@@ -51,6 +51,8 @@ def greedy_search(grid, robot, boxes, storages):
 
 
 def gs_executive(puzzle_file):
+    start = datetime.datetime.now()
+
     grid, robot, boxes, storages = GenerateSuccessors.parse_puzzle(puzzle_file)
     solution_path = greedy_search(grid, robot, boxes, storages)
 
@@ -65,5 +67,9 @@ def gs_executive(puzzle_file):
             print("\n")
     else:
         print("No solution found.")
+
+    end = datetime.datetime.now()
+
+    print(f'GS Algorithm Runtime: {end - start}')
 
 

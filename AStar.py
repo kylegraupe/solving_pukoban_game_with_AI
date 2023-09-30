@@ -1,4 +1,5 @@
 import heapq
+import datetime
 
 import GenerateSuccessors
 import ManhattanHeuristic
@@ -55,6 +56,8 @@ def astar_search(grid, robot, boxes, storages):
 
 
 def as_executive(file_name):
+    start = datetime.datetime.now()
+
     grid, robot, boxes, storages = GenerateSuccessors.parse_puzzle(file_name)
     solution_path = astar_search(grid, robot, boxes, storages)
 
@@ -69,3 +72,7 @@ def as_executive(file_name):
             print("\n")
     else:
         print("No solution found.")
+
+    end = datetime.datetime.now()
+
+    print(f'A* Algorithm Runtime: {end - start}')

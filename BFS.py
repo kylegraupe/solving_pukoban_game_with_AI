@@ -1,5 +1,6 @@
 from collections import deque
 import pandas as pd
+import datetime
 
 import GenerateSuccessors
 import ManhattanHeuristic
@@ -66,6 +67,9 @@ def bfs_executive(file_name):
     :param file_name: Path to text file containing Pukoban Game Grid
     :return: None
     """
+
+    start = datetime.datetime.now()
+
     puzzle_file = file_name
     grid, robot, boxes, storages = GenerateSuccessors.parse_puzzle(puzzle_file)
 
@@ -81,6 +85,10 @@ def bfs_executive(file_name):
             print("\n")
     else:
         print("No solution found.")
+
+    end = datetime.datetime.now()
+
+    print(f'BFS Algorithm Runtime: {end - start}')
 
     # print(is_valid_pull(grid, robot[0], boxes[0], right))
     # print(is_valid_push(grid, robot[0], boxes[0], left))

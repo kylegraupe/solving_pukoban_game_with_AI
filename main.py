@@ -15,11 +15,11 @@ def execute_application():
 
     # UNCOMMENT THE SEARCH YOU WOULD LIKE TO RUN
 
-    # BFS.bfs_executive('pukoban_tiny.txt')
+    BFS.bfs_executive('pukoban_tiny.txt')
     # BFS.bfs_executive('pukoban_medium.txt')
     # BFS.bfs_executive('pukoban_large.txt')
 
-    # DFS.dfs_executive('pukoban-tiny.txt')
+    DFS.dfs_executive('pukoban_tiny.txt')
     # DFS.dfs_executive('pukoban_medium.txt')
     # DFS.dfs_executive('pukoban_large.txt')
 
@@ -27,7 +27,7 @@ def execute_application():
     # GS.gs_executive('pukoban_medium.txt')
     # GS.gs_executive('pukoban_large.txt')
 
-    # AStar.as_executive('pukoban_tiny.txt')
+    AStar.as_executive('pukoban_tiny.txt')
     # AStar.as_executive('pukoban_medium.txt')
     # AStar.as_executive('pukoban_large.txt')
 

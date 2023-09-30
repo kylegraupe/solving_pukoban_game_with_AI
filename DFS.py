@@ -1,7 +1,8 @@
-import collections
+import datetime
 
 import GenerateSuccessors
 import ManhattanHeuristic
+
 
 EMPTY = ' '
 OBSTACLE = 'O'
@@ -45,6 +46,15 @@ actions = [1, 2, 3]
 #     return None
 
 def dfs_depth_limited(grid, robot, boxes, storages, max_depth):
+    """
+    This function is my attempt at implementing the DFS algorithm with a depth limit for recursion.
+    :param grid: Pukoban Game Grid
+    :param robot: Robot locations
+    :param boxes: Box locations
+    :param storages: Storage locations
+    :param max_depth: Max recursion depth
+    :return: Solution path or None
+    """
     stack = [(grid, robot, boxes, [])]
 
     while stack:
@@ -77,6 +87,14 @@ def dfs_depth_limited(grid, robot, boxes, storages, max_depth):
 
 
 def dfs_executive(file_path):
+    """
+    Executes DFS algorithm
+    :param file_path: Pukoban Game Grid text file.
+    :return: Terminal output
+    """
+
+    start = datetime.datetime.now()
+
     # Parse the puzzle from the file
     grid, robot, boxes, storages = GenerateSuccessors.parse_puzzle(file_path)
 
@@ -94,3 +112,7 @@ def dfs_executive(file_path):
         print(f"Total Steps: {len(solution_path) - 1}")
     else:
         print("No solution found.")
+
+    end = datetime.datetime.now()
+
+    print(f'DFS Algorithm Runtime: {end - start}')

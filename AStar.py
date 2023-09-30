@@ -51,6 +51,8 @@ def astar_search(grid, robot, boxes, storages):
                     # Add the successor state to the priority queue based on the heuristic and path cost
                     heapq.heappush(priority_queue, (heuristic + path_cost + 1, path_cost + 1, new_grid, new_robot, new_boxes, path + [successor]))
 
+    print('Manhattan Distance Check:')
+    print(ManhattanHeuristic.manhattan_heuristic(new_boxes, storages))
     # No solution found
     return None
 

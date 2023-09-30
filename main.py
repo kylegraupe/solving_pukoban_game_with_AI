@@ -14,19 +14,22 @@ def execute_application():
     """
 
     # UNCOMMENT THE SEARCH YOU WOULD LIKE TO RUN
-
+    print('\n========= Breadth First Search ========= \n')
     BFS.bfs_executive('pukoban_tiny.txt')
     # BFS.bfs_executive('pukoban_medium.txt')
     # BFS.bfs_executive('pukoban_large.txt')
 
+    print('\n========= Depth First Search ========= \n')
     DFS.dfs_executive('pukoban_tiny.txt')
     # DFS.dfs_executive('pukoban_medium.txt')
     # DFS.dfs_executive('pukoban_large.txt')
 
+    print('\n========= Greedy Search ========= \n')
     # GS.gs_executive('pukoban_tiny.txt')
     # GS.gs_executive('pukoban_medium.txt')
     # GS.gs_executive('pukoban_large.txt')
 
+    print('\n========= A* Search ========= \n')
     AStar.as_executive('pukoban_tiny.txt')
     # AStar.as_executive('pukoban_medium.txt')
     # AStar.as_executive('pukoban_large.txt')

@@ -46,6 +46,10 @@ def greedy_search(grid, robot, boxes, storages):
                     # Add the successor state to the priority queue based on the heuristic
                     heapq.heappush(priority_queue, (heuristic, new_grid, new_robot, new_boxes, path + [successor]))
 
+
+    print('Manhattan Distance Check:')
+    print(ManhattanHeuristic.manhattan_heuristic(new_boxes, storages))
+
     # No solution found
     return None
 

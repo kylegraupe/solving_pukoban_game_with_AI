@@ -2,7 +2,7 @@ import BFS  # Breadth First Search
 import DFS  # Depth First Search
 import GS  # Greedy Search
 import AStar  # A* Search
-
+import CDSHeuristic
 
 def execute_application():
     """
@@ -33,6 +33,9 @@ def execute_application():
     AStar.as_executive('pukoban_tiny.txt')
     # AStar.as_executive('pukoban_medium.txt')
     # AStar.as_executive('pukoban_large.txt')
+
+    print('\n========= CDS Heuristic ========= \n')
+    CDSHeuristic.cds_executive('pukoban_tiny.txt')
 
 
 if __name__ == '__main__':

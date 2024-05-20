@@ -1,8 +1,8 @@
 import BFS  # Breadth First Search
 import DFS  # Depth First Search
-import GS  # Greedy Search
 import AStar  # A* Search
 import CDSHeuristic
+
 
 def execute_application():
     """
@@ -15,12 +15,12 @@ def execute_application():
 
     # UNCOMMENT THE SEARCH YOU WOULD LIKE TO RUN
     print('\n========= Breadth First Search ========= \n')
-    BFS.bfs_executive('pukoban_tiny.txt')
+    BFS.bfs_executive('test_files/pukoban_tiny.txt')
     # BFS.bfs_executive('pukoban_medium.txt')
     # BFS.bfs_executive('pukoban_large.txt')
 
     print('\n========= Depth First Search ========= \n')
-    DFS.dfs_executive('pukoban_tiny.txt')
+    DFS.dfs_executive('test_files/pukoban_tiny.txt')
     # DFS.dfs_executive('pukoban_medium.txt')
     # DFS.dfs_executive('pukoban_large.txt')
 
@@ -30,12 +30,12 @@ def execute_application():
     # GS.gs_executive('pukoban_large.txt')
 
     print('\n========= A* Search ========= \n')
-    AStar.as_executive('pukoban_tiny.txt')
+    AStar.as_executive('test_files/pukoban_tiny.txt')
     # AStar.as_executive('pukoban_medium.txt')
     # AStar.as_executive('pukoban_large.txt')
 
     print('\n========= CDS Heuristic ========= \n')
-    CDSHeuristic.cds_executive('pukoban_tiny.txt')
+    CDSHeuristic.cds_executive('test_files/pukoban_tiny.txt')
 
 
 if __name__ == '__main__':
